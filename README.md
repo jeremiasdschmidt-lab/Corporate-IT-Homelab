@@ -33,5 +33,5 @@ Diseño e implementación de un entorno de red corporativa virtualizado "End-to-
   * Se validó el impacto a nivel de red centralizada cazando el **Event ID 4771 (Kerberos Pre-authentication failed)** directamente en los logs de seguridad del Controlador de Dominio.
 
 ## Próximos Pasos (Roadmap)
-* [ ] Automatización de creación de usuarios masiva utilizando PowerShell.
+* [x] Automatización de creación de usuarios masiva utilizando PowerShell.
 * [ ] Implementación de un SIEM (Wazuh) para la centralización y recolección de los logs (Event Forwarding).
