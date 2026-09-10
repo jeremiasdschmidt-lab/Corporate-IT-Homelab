@@ -19,6 +19,15 @@ Diseño e implementación de un entorno de red corporativa virtualizado "End-to-
    * **Mapeo de Unidades:** Despliegue de políticas (Preferences) para mapear automáticamente una ruta UNC compartida (SMB/NTFS de Solo Lectura) a la unidad Z: del cliente.
    * **Auditoría de Seguridad:** Configuración de *Advanced Audit Policies* a nivel de dominio para rastrear intentos de Logon y Management de cuentas (Success/Failure).
 
+## 3. Automatización de Aprovisionamiento de Identidades (PowerShell)
+Para optimizar el alta de empleados y anular el margen de error humano, desarrollé un script de automatización ('CrearUsuarios.ps1').
+* **Funcionamiento:** El script importa el módulo de Active Directory, ingiere una base de datos de usuarios estructurada en un archivo CSV y ejecuta un bucle 'foreach' para el aprovisionamiento masivo de las cuentas.
+* **Seguridad:** Las contraseñas temporales se inyectan utilizando el cmdlet 'ConvertTo-SecureString' para evitar la transmisión y almacenamiento de credenciales en texto plano.
+
+*(Evidencia de ejecución en PowerShell y validación en ADUC)*
+![Ejecución de Script PowerShell](script_ps1.png)
+![Usuarios creados en Active Directory](users_AD.png)
+
 ## Incidentes y Troubleshooting
 
 ### Incidente 1: Conflicto de resolución DNS por Rogue DHCP
