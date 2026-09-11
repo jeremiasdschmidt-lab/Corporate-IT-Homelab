@@ -25,8 +25,8 @@ Para optimizar el alta de empleados y anular el margen de error humano, desarrol
 * **Seguridad:** Las contraseñas temporales se inyectan utilizando el cmdlet 'ConvertTo-SecureString' para evitar la transmisión y almacenamiento de credenciales en texto plano.
 
 *(Evidencia de ejecución en PowerShell y validación en ADUC)*
-![Ejecución de Script PowerShell](script_ps1.png)
-![Usuarios creados en Active Directory](users_AD.png)
+![Ejecución de Script PowerShell] https://github.com/jeremiasdschmidt-lab/Corporate-IT-Homelab/blob/main/images/script_ps1.png
+![Usuarios creados en Active Directory] https://github.com/jeremiasdschmidt-lab/Corporate-IT-Homelab/blob/main/images/users_AD.png
 
 ## Fase 2: Centro de Operaciones de Seguridad (SOC con Wazuh)
 
