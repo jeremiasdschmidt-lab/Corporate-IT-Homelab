@@ -42,7 +42,7 @@ El laboratorio fue construido sobre **QEMU/KVM (Virt-Manager)** utilizando una m
 * **Target / Endpoint:** Windows Server (Controlador de Dominio / Active Directory).
 * **Red:** Red virtual aislada (NAT) para comunicación segura entre el agente y el servidor.
 
-![Topología del Laboratorio](./images/arch-kvm.png)
+![Topología del Laboratorio] (arch-kvm.png)
 
 ### Desafíos Técnicos y Troubleshooting
 Durante el despliegue de la infraestructura, se presentaron escenarios críticos que requirieron intervención manual a nivel de sistema operativo:
