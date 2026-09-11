@@ -14,12 +14,12 @@ Diseño e implementación de un entorno de red corporativa virtualizado "End-to-
 
 
 ## Servicios Core y Configuraciones Aplicadas
-1. **Identity & Access Management (IAM):** Creación del bosque y dominio raíz (`homelab.local`). Diseño lógico con OUs y usuarios de prueba aplicando el Principio de Menor Privilegio (PoLP).
-2. **Automatización con GPOs:**
+### 1. **Identity & Access Management (IAM):** Creación del bosque y dominio raíz (`homelab.local`). Diseño lógico con OUs y usuarios de prueba aplicando el Principio de Menor Privilegio (PoLP).
+### 2. **Automatización con GPOs:**
    * **Mapeo de Unidades:** Despliegue de políticas (Preferences) para mapear automáticamente una ruta UNC compartida (SMB/NTFS de Solo Lectura) a la unidad Z: del cliente.
    * **Auditoría de Seguridad:** Configuración de *Advanced Audit Policies* a nivel de dominio para rastrear intentos de Logon y Management de cuentas (Success/Failure).
 
-## 3. Automatización de Aprovisionamiento de Identidades (PowerShell)
+### 3. Automatización de Aprovisionamiento de Identidades (PowerShell)
 Para optimizar el alta de empleados y anular el margen de error humano, desarrollé un script de automatización ('CrearUsuarios.ps1').
 * **Funcionamiento:** El script importa el módulo de Active Directory, ingiere una base de datos de usuarios estructurada en un archivo CSV y ejecuta un bucle 'foreach' para el aprovisionamiento masivo de las cuentas.
 * **Seguridad:** Las contraseñas temporales se inyectan utilizando el cmdlet 'ConvertTo-SecureString' para evitar la transmisión y almacenamiento de credenciales en texto plano.
@@ -28,14 +28,14 @@ Para optimizar el alta de empleados y anular el margen de error humano, desarrol
 ![Ejecución de Script PowerShell](script_ps1.png)
 ![Usuarios creados en Active Directory](users_AD.png)
 
-## SOC Home Lab: Wazuh SIEM & Active Directory Monitoring
+## Fase 2: Centro de Operaciones de Seguridad (SOC con Wazuh)
 
-## Descripción del Proyecto
+### Descripción del Proyecto
 Este proyecto documenta el despliegue y configuración de un entorno de Centro de Operaciones de Seguridad (SOC) en un laboratorio virtualizado. El objetivo principal fue instalar **Wazuh SIEM (All-in-one)** para monitorear, detectar y auditar eventos de seguridad en un **Windows Server con Active Directory**.
 
 Este laboratorio simula un entorno corporativo real, enfocándose no solo en el despliegue, sino en la resolución de problemas de infraestructura (troubleshooting) y la cacería de amenazas (Threat Hunting).
 
-## Arquitectura e Infraestructura
+### Arquitectura e Infraestructura
 El laboratorio fue construido sobre **QEMU/KVM (Virt-Manager)** utilizando una máquina host con Linux.
 * **SIEM Server:** Ubuntu Server 24.04 LTS (Wazuh Manager, Indexer & Dashboard).
   * *Recursos:* 4 vCPUs, 4GB RAM, 30GB Disk.
@@ -44,7 +44,7 @@ El laboratorio fue construido sobre **QEMU/KVM (Virt-Manager)** utilizando una m
 
 ![Topología del Laboratorio](./images/arch-kvm.png)
 
-## Desafíos Técnicos y Troubleshooting
+### Desafíos Técnicos y Troubleshooting
 Durante el despliegue de la infraestructura, se presentaron escenarios críticos que requirieron intervención manual a nivel de sistema operativo:
 
 1. **Gestión de Volúmenes Lógicos (LVM) en Ubuntu:** 
@@ -54,20 +54,20 @@ Durante el despliegue de la infraestructura, se presentaron escenarios críticos
    * **Problema:** El colapso por almacenamiento dejó procesos huérfanos aferrados al puerto '1515' y rompió la base de datos de paquetes, generando el *Error 127* al intentar reiniciar los servicios de Wazuh.
    * **Solución:** Se identificaron y eliminaron los procesos zombis ('pkill -9'), se purgó la base de datos de paquetes defectuosos manipulando los scripts de control en '/var/lib/dpkg/info/', y se realizó una instalación limpia con el parámetro de sobreescritura ('-o').
 
-## Fase Operativa y Caza de Amenazas
+### Fase Operativa y Caza de Amenazas
 
 ### 1. Despliegue del Agente (Windows Server)
 Se generó el payload de instalación desde el panel de Wazuh y se inyectó en el servidor objetivo mediante ejecución silenciosa en **PowerShell**. El agente fue configurado para reportarse al nodo central de Ubuntu, logrando conectividad exitosa.
 
 ![Agente Activo en Wazuh](./images/wazuh-agent-active.png)
 
-## 2. Simulación de Ataque (Fuerza Bruta / Acceso no Autorizado)
+### 2. Simulación de Ataque (Fuerza Bruta / Acceso no Autorizado)
 Para validar las reglas de detección, se simuló un ataque de fuerza bruta intentando acceder al Active Directory con credenciales falsas múltiples veces.
 
 * **Táctica simulada:** Credential Access.
 * **Evento Windows Capturado:** Event ID 4625 (Logon failure).
 
-## 3. Threat Hunting & Análisis Forense
+### 3. Threat Hunting & Análisis Forense
 El SIEM capturó, normalizó y correlacionó los eventos instantáneamente. A través del módulo de **Threat Hunting**, se aisló la telemetría del servidor Windows y se identificó la alerta crítica (Nivel 5 - ID 60122). 
 
 ![Detección de Logon Failure](./images/threat-hunt-rule60122.png)
@@ -95,6 +95,8 @@ Al analizar el JSON crudo del evento, se pudo determinar la hora exacta del ataq
   * Se identificó el **Event ID 4625 (Failed Logon - Type 2)** de manera local en el Visor de Eventos del endpoint (Windows 11).
   * Se validó el impacto a nivel de red centralizada cazando el **Event ID 4771 (Kerberos Pre-authentication failed)** directamente en los logs de seguridad del Controlador de Dominio.
 
-## Próximos Pasos (Roadmap)
+## Roadmap y Estado
+* [x] Infraestructura base de Active Directory.
 * [x] Automatización de creación de usuarios masiva utilizando PowerShell.
 * [x] Implementación de un SIEM (Wazuh) para la centralización y recolección de los logs (Event Forwarding).
+* [ ] (Futuro) Despliegue de respuestas activas (Active Response) para bloqueo automático de IPs atacantes.
