@@ -42,7 +42,7 @@ El laboratorio fue construido sobre **QEMU/KVM (Virt-Manager)** utilizando una m
 * **Target / Endpoint:** Windows Server (Controlador de Dominio / Active Directory).
 * **Red:** Red virtual aislada (NAT) para comunicación segura entre el agente y el servidor.
 
-![Topología del Laboratorio] (arch-kvm.png)
+![Topología del Laboratorio] <img width="2560" height="1440" alt="arch-kvm" src="https://github.com/user-attachments/assets/8a850792-7bf9-4aa8-a5d6-a336f4bfc80b" />
 
 ### Desafíos Técnicos y Troubleshooting
 Durante el despliegue de la infraestructura, se presentaron escenarios críticos que requirieron intervención manual a nivel de sistema operativo:
@@ -59,7 +59,7 @@ Durante el despliegue de la infraestructura, se presentaron escenarios críticos
 ### 1. Despliegue del Agente (Windows Server)
 Se generó el payload de instalación desde el panel de Wazuh y se inyectó en el servidor objetivo mediante ejecución silenciosa en **PowerShell**. El agente fue configurado para reportarse al nodo central de Ubuntu, logrando conectividad exitosa.
 
-![Agente Activo en Wazuh](./images/wazuh-agent-active.png)
+![Agente Activo en Wazuh] <img width="2560" height="1440" alt="wazuh-agent-active" src="https://github.com/user-attachments/assets/ad791cba-bbb4-40e7-8ede-7f3b48cc4fab" />
 
 ### 2. Simulación de Ataque (Fuerza Bruta / Acceso no Autorizado)
 Para validar las reglas de detección, se simuló un ataque de fuerza bruta intentando acceder al Active Directory con credenciales falsas múltiples veces.
@@ -70,11 +70,11 @@ Para validar las reglas de detección, se simuló un ataque de fuerza bruta inte
 ### 3. Threat Hunting & Análisis Forense
 El SIEM capturó, normalizó y correlacionó los eventos instantáneamente. A través del módulo de **Threat Hunting**, se aisló la telemetría del servidor Windows y se identificó la alerta crítica (Nivel 5 - ID 60122). 
 
-![Detección de Logon Failure](./images/threat-hunt-rule60122.png)
+![Detección de Logon Failure] <img width="2560" height="1440" alt="threat-hunt-rule60122" src="https://github.com/user-attachments/assets/ca208822-1a57-48c5-beb5-d1d6324603b9" />
 
 Al analizar el JSON crudo del evento, se pudo determinar la hora exacta del ataque, la terminal de origen y el nombre del usuario falso utilizado en el intento de brecha.
 
-![Análisis Forense JSON](./images/forensics-json.png)
+![Análisis Forense JSON] <img width="2560" height="1440" alt="forensics-json" src="https://github.com/user-attachments/assets/19259ac4-52c2-43cc-875a-da1f1b4c18e6" />
 
 ## Tecnologías Utilizadas
 * **Seguridad:** Wazuh SIEM, OpenSearch, Filebeat.
